@@ -47,21 +47,21 @@ export default function Home() {
                     name="Casa Floripa"
                     description="Casa em Floripa, bem conservada e pronta pra uso."
                     price="R$ 1.790,99"
-                    onPress={() => { }}
+                    onPress={() => navigation.navigate('detail')}
                 />
                 <New
                     cover={require('../assets/house3.jpg')}
                     name="Rancho SP"
                     description="Rancho SP, o lugar ideal pra você passar o fim de semana com sua familia."
                     price="R$ 2.213,66"
-                    onPress={() => { }}
+                    onPress={() => navigation.navigate('detail')}
                 />
                 <New
                     cover={require('../assets/house4.jpg')}
                     name="Casa Alphaville"
                     description="Casa Alphaville, venha morar na cidade alpha com segurança, paz e bem estar."
                     price="R$ 2.781,92"
-                    onPress={() => { }}
+                    onPress={() => navigation.navigate('detail')}
                 />
             </ScrollView>
 

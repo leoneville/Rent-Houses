@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 
 import Home from './pages/Home';
 import Detail from './pages/Detail';
+import Login from './pages/Login';
 import { TouchableOpacity } from 'react-native';
 
 const Stack = createStackNavigator();
@@ -13,6 +14,16 @@ function Routes() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+            <Stack.Screen
+                    name="login"
+                    component={Login}
+                    options={{
+                        title: 'FAÇA SEU LOGIN',
+                        headerTitleStyle: {
+                            fontFamily: 'Montserrat_700Bold'
+                        }
+                    }}
+                />
                 <Stack.Screen
                     name="home"
                     component={Home}

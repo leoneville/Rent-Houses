@@ -1,15 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import New from '../components/New';
 import House from '../components/House';
 import Recommended from '../components/Recommended';
 
-export default function Home() {
-    const navigation = useNavigation();
+export default function Home({ navigation }) {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    //Inicializa a função que recupera os dados do usuário do AsyncStorage
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    //Função para recuperar os dados do usuário do AsyncStorage
+    const getUser = async () => {
+        try {
+            //Recuperamos os dados do usuário do AsyncStorage
+            const user = await AsyncStorage.getItem('user');
+            //Convertemos o JSON para um objeto
+            const parsedUser = JSON.parse(user);
+            //Atualizamos o estado com os dados do usuário
+            setEmail(parsedUser.email);
+            setPassword(parsedUser.password);
+        } catch (error) {
+            //Caso não, exibimos uma mensagem de erro
+            console.log(error);
+        }
+    }
 
     return (
         <ScrollView

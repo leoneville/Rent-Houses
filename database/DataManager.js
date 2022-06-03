@@ -1,8 +1,8 @@
 import db from "./DatabaseInstance";
 
-const sqlCreate = 'CREATE TABLE IF NOT EXISTES USER (id INTEGER PRIMARY KEY AUTOINCREMENT, email VARCHAR (200), username VARCHAR (200), password VARCHAR (20), balance REAL)';
+const sqlCreate = 'CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY AUTOINCREMENT, email VARCHAR (200), name VARCHAR (200), username VARCHAR (50), password VARCHAR (20), balance REAL)';
 
-const sqlInsert = 'INSER INTO USER (email, username, password, balance) VALUES (?, ?, ?, ?)';
+const sqlInsert = 'INSERT INTO USER (email, name, username, password, balance) VALUES (?, ?, ?, ?, ?)';
 
 const sqlSelect = 'SELECT * FROM USER WHERE id = ?';
 
@@ -26,8 +26,15 @@ export default class DataManager {
     async createUser(user) 
     {
         (await db).transaction(tx => {
-            tx.executeSql(sqlInsert, [user.email, user.username, user.password, user.balance]);
+            tx.executeSql(sqlInsert, [user.email, user.name, user.username, user.password, user.balance]);
         });
+    }
+
+    async updateBalance(value, id)
+    {
+        (await db).transaction(tx => {
+            tx.executeSql(sqlUpdate, [value, id]);
+        })
     }
 
     async getUser(id)

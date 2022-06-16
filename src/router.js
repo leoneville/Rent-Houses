@@ -28,22 +28,7 @@ function Routes() {
                 <Stack.Screen
                     name="home"
                     component={Home}
-                    options={{
-                        title: 'Home',
-                        headerTitleStyle: {
-                            fontFamily: 'Montserrat_700Bold'
-                        },
-
-                        headerRight: () => (
-                            <TouchableOpacity style={{marginRight: 15}}>
-                                <Feather
-                                    name="shopping-bag"
-                                    size={24}
-                                    color="black"
-                                />
-                            </TouchableOpacity>
-                        )
-                    }}
+                    options={{headerShown: false}}
                 />
                 <Stack.Screen
                     name="detail"

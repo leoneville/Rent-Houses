@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#FFF',
         height: 90,
-        height: 90,
         borderRadius: 8,
         marginRight: 20,
     }

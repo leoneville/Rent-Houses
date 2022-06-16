@@ -1,4 +1,5 @@
 import db from './DatabaseInstance';
+import {useState} from "react";
 
 const sqlCreate = 'CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR (100),  email VARCHAR (200), password VARCHAR (50))';
 const sqlInsert = 'INSERT INTO USER (nome, email, password) VALUES (?, ?, ?)';
@@ -25,14 +26,16 @@ export default class DataManager {
     }
 
     static async getUser(email) {
-        let user = null;
-        (await db).transaction(tx => {
-            tx.executeSql(sqlSelect, [email], (_, { rows }) => {
-                user = rows._array[0];
-            });
-        });
-        return user;
-    }
+        let user = await new Promise((resolved, reject ) => {
+            db.transaction((tx) => {
+                tx.executeSql(sqlSelect, [email], async (_, { rows }) => {
+                    resolved(await rows);
+                });
+            }, (err) => user = null );
+        })
+
+        return user
+    };
 
     static async deleteUser(id) {
         (await db).transaction(tx => {

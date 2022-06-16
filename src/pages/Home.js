@@ -14,23 +14,23 @@ export default function Home({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    //Inicializa a função que recupera os dados do usuário do AsyncStorage
+
     useEffect(() => {
         getUser();
     }, []);
 
-    //Função para recuperar os dados do usuário do AsyncStorage
+
     const getUser = async () => {
         try {
-            //Recuperamos os dados do usuário do AsyncStorage
+
             const user = await AsyncStorage.getItem('user');
-            //Convertemos o JSON para um objeto
+
             const parsedUser = JSON.parse(user);
-            //Atualizamos o estado com os dados do usuário
+
             setEmail(parsedUser.email);
             setPassword(parsedUser.password);
         } catch (error) {
-            //Caso não, exibimos uma mensagem de erro
+
             console.log(error);
         }
     }

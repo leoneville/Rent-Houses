@@ -7,14 +7,14 @@ import {
     TouchableOpacity
 } from "react-native";
 
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logoRentHouse from "../assets/rent-house-logo.png";
 import db from "../../database/DatabaseInstance";
 import DataManager from "../../database/DataManager";
 
-export default function Login({ navigation }) {
+export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -30,14 +30,24 @@ export default function Login({ navigation }) {
             }
 
             const getData = await DataManager.getUser(email);
-            console.log(getData);
 
-            await asyncStorageSave(user);
+            if (getData.length > 0) {
+                if (getData[0].email === email && getData[0].password === password) {
+                    await asyncStorageSave(user);
 
-            return navigation.navigate("home");
+                    return navigation.navigate("home");
+                }
+
+                alert("A senha está incorreta!");
+                setPassword("");
+            } else {
+                alert("O Email informado não está cadastrado em nossa base de dados");
+                setEmail("");
+                setPassword("");
+            }
+
         } else {
-
-            console.log('Preencha todos os campos');
+            alert("Preencha todos os campos");
         }
     }
 
@@ -64,10 +74,12 @@ export default function Login({ navigation }) {
                 <Image source={logoRentHouse} style={styles.logo}></Image>
             </View>
 
-            <TextInput value={email} onChangeText={(e) => setEmail(e)} placeholder="Insira seu Email" style={styles.input}></TextInput>
-            <TextInput value={password} onChangeText={(e) => setPassword(e)} secureTextEntry={true} placeholder="Insira sua Senha" style={styles.input}></TextInput>
-            <TouchableOpacity 
-                style={styles.loginButton} 
+            <TextInput value={email} onChangeText={(e) => setEmail(e)} placeholder="Insira seu Email"
+                       style={styles.input}></TextInput>
+            <TextInput value={password} onChangeText={(e) => setPassword(e)} secureTextEntry={true}
+                       placeholder="Insira sua Senha" style={styles.input}></TextInput>
+            <TouchableOpacity
+                style={styles.loginButton}
                 onPress={saveAndNavigate}
             >
                 <Text style={styles.textButton}>ACESSAR</Text>

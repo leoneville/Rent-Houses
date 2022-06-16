@@ -11,7 +11,6 @@ export default function App() {
 
   useEffect(() => {
     new DatabaseInit();
-    console.log("teste");
   },[]);
 
   let [fontsLoaded] = useFonts({

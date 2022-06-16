@@ -26,6 +26,17 @@ export default function Register({ navigation }) {
         const passwordLength = password.length;
 
         if (nameLength > 0 && emailLength > 0 && passwordLength > 0) {
+
+            const getUser = await DataManager.getUser(email);
+            console.log(getUser);
+
+            if (getUser.length > 0)
+            {
+                alert("O email informado já está cadastrado em nossa base de dados.");
+                changePage();
+                return navigation.navigate("login");
+            }
+
             const user = {
                 name,
                 email,
@@ -33,13 +44,14 @@ export default function Register({ navigation }) {
             }
 
             await DataManager.createUser(user);
+            alert("Conta cadastrada com sucesso!");
 
             changePage();
             return navigation.navigate("login");
+
+
         } else {
-            //Caso não, exibimos uma mensagem de erro
             alert("Preencha todos os campos");
-            console.log('Preencha todos os campos');
         }
     }
 

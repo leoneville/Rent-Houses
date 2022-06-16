@@ -6,36 +6,37 @@ import {
     Text,
     TouchableOpacity
 } from "react-native";
-//Importamos o useState para poder usar o estado
+
 import React, { useState, useEffect } from "react";
-//Importamos o AsyncStorage para armazenar os dados do usuário
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logoRentHouse from "../assets/rent-house-logo.png";
 import db from "../../database/DatabaseInstance";
 import DataManager from "../../database/DataManager";
 
 export default function Login({ navigation }) {
-    //Criamos um estado para armazenar o email e senha
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-
-    //Função para logar o usuário (dummy)  
     const saveAndNavigate = async () => {
+
         const emailLength = email.length;
         const passwordLength = password.length;
-
         if (emailLength > 0 && passwordLength > 0) {
-            console.log(email);
-            console.log(password);
 
-            const user = await DataManager.getUser(email);
-            console.log(user);
+            const user = {
+                email: email,
+                password: password
+            }
+
+            const getData = await DataManager.getUser(email);
+            console.log(getData);
+
+            await asyncStorageSave(user);
+
             return navigation.navigate("home");
-
         } else {
-            //Caso não, exibimos uma mensagem de erro
-            alert("Preencha todos os campos");
+
             console.log('Preencha todos os campos');
         }
     }
@@ -46,14 +47,13 @@ export default function Login({ navigation }) {
         return navigation.navigate("register");
     }
 
-    //Função para armazenar os dados do usuário no AsyncStorage
     const asyncStorageSave = async (user) => {
         try {
-            //Armazenamos os dados do usuário no AsyncStorage
+
             await AsyncStorage.setItem('user', JSON.stringify(user));
             console.log('salvou no asyncstorage');
         } catch (error) {
-            //Caso não, exibimos uma mensagem de erro
+
             console.log('erro ao salvar no asyncstorage');
         }
     }
@@ -63,7 +63,7 @@ export default function Login({ navigation }) {
             <View style={styles.image}>
                 <Image source={logoRentHouse} style={styles.logo}></Image>
             </View>
-            {/* Inputs para receber os dados do usuário */}
+
             <TextInput value={email} onChangeText={(e) => setEmail(e)} placeholder="Insira seu Email" style={styles.input}></TextInput>
             <TextInput value={password} onChangeText={(e) => setPassword(e)} secureTextEntry={true} placeholder="Insira sua Senha" style={styles.input}></TextInput>
             <TouchableOpacity 
